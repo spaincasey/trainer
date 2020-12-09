@@ -6,7 +6,9 @@ import { navigate } from '../navigationRef';
 const workoutReducer = (state, action) => {
     switch (action.type) {
         case 'FETCH_CATEGORIES':
-            return action.payload;
+            return { ...state, categories: action.payload };
+        case 'FETCH_WORKOUT':
+            return { ...state, workout: action.payload };
         default:
             return state;
     }
@@ -14,16 +16,30 @@ const workoutReducer = (state, action) => {
 
 const fetchCategories = dispatch => async () => {
     try {
-        const response = await trainerApi.get('/category');
-        console.log(response.data);
+        const token = await AsyncStorage.getItem('token');
+        const response = await trainerApi.get('/category', { headers: { 'Authorization': `Bearer ${token}` } });
+        // console.log(response.data);
         dispatch({ type: 'FETCH_CATEGORIES', payload: response.data });
     } catch (err) {
         console.log(err);
     }
-}
+};
+
+const fetchWorkout = dispatch => async ({ muscle }) => {
+    console.log(muscle);
+    try {
+        const token = await AsyncStorage.getItem('token');
+        const response = await trainerApi.get(`/workout?muscle=${muscle}`, { headers: { 'Authorization': `Bearer ${token}` } });
+        dispatch({ type: 'FETCH_WORKOUT', payload: response.data });
+        navigate('Workout');
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 
 export const { Provider, Context } = createDataContext(
     workoutReducer,
-    { fetchCategories },
-    { categories: null }
+    { fetchCategories, fetchWorkout },
+    { categories: null, workout: null }
 );

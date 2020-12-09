@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { Context as AuthContext } from '../context/AuthContext';
 import AuthForm from '../components/AuthForm';
@@ -11,8 +11,11 @@ const SignupScreen = () => {
     return (
         <View style={styles.container}>
             <NavigationEvents onWillFocus={removeError} />
+            <View style={styles.logoContainer}>
+                <Image style={styles.logo} source={require('../../assets/PocketTrainerLogo.png')} />
+            </View>
             <AuthForm
-                headerText='Sign Up for Tracker'
+                headerText='Sign Up for Pocket Trainer'
                 errorMessage={state.errorMessage}
                 buttonText='Sign Up'
                 onSubmit={signup}
@@ -34,8 +37,17 @@ SignupScreen.navigationOptions = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        marginBottom: 250
+        justifyContent: 'center'
+    },
+    logo: {
+        flex: 1,
+        resizeMode: 'contain',
+        width: 250,
+        height: null
+    },
+    logoContainer: {
+        alignItems: 'center',
+        height: 250
     }
 });
 

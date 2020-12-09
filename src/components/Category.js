@@ -8,7 +8,9 @@ import {
     Image
 } from 'react-native';
 
+
 const Category = ({ name, muscles, callback }) => {
+
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -20,8 +22,8 @@ const Category = ({ name, muscles, callback }) => {
                 keyExtractor={(muscles) => muscles.name}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity style={styles.touchableOpacity} onPress={callback}>
-                            <Image style={styles.button} />
+                        <TouchableOpacity style={styles.touchableOpacity} onPress={() => callback(item.name)}>
+                            <Image style={styles.image} source={require('../../assets/muscleIcons/bicepIcon.png')} />
                             <Text style={styles.buttonText}>{item.name}</Text>
                         </TouchableOpacity>
                     )
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginBottom: 3
     },
-    button: {
+    image: {
         width: 150,
         height: 150,
         alignItems: 'center',
@@ -51,7 +53,9 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     buttonText: {
-        marginVertical: 10
+        marginVertical: 10,
+        fontSize: 16,
+        fontWeight: 'bold'
     },
     flatList: {
         flex: 1,

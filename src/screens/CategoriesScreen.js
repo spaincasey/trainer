@@ -2,61 +2,28 @@ import React, { useEffect, useContext } from 'react';
 import {
     View,
     StyleSheet,
-    Text,
     FlatList,
-    TouchableOpacity
 } from 'react-native';
 import Category from '../components/Category';
 import { Context as WorkoutContext } from '../context/WorkoutContext';
+import { NavigationEvents } from 'react-navigation';
 
-const CategoriesScreen = ({ navigation }) => {
-    const { fetchCategories } = useContext(WorkoutContext);
+const CategoriesScreen = () => {
+    const { state, fetchCategories, fetchWorkout } = useContext(WorkoutContext);
 
     useEffect(() => {
         fetchCategories();
     }, []);
 
-    const categories = [
-        {
-            name: 'Arms', muscles: [
-                { name: 'Biceps', icon: '' },
-                { name: 'Triceps', icon: '' },
-                { name: 'Forearms', icon: '' }
-            ]
-        },
-        {
-            name: 'Legs', muscles: [
-                { name: 'Hamstrings', icon: '' },
-                { name: 'Quads', icon: '' },
-                { name: 'Calves', icon: '' },
-                { name: 'Glutes', icon: '' }
-            ]
-        },
-        {
-            name: 'Core', muscles: [
-                { name: 'Pecs', icon: '' },
-                { name: 'Obliques', icon: '' },
-                { name: 'Abs', icon: '' }
-            ]
-        },
-        {
-            name: 'Shoulders/Back', muscles: [
-                { name: 'Traps', icon: '' },
-                { name: 'Deltoids', icon: '' },
-                { name: 'Lower Back', icon: '' }
-            ]
-        },
-    ];
-
     return (
         <View style={styles.container}>
             <FlatList
-                data={categories}
-                keyExtractor={(category) => category.name}
+                data={state.categories}
+                keyExtractor={(category) => category._id}
                 renderItem={({ item }) => {
                     return (
                         <View>
-                            <Category name={item.name} muscles={item.muscles} callback={() => navigation.navigate('Workout')} />
+                            <Category name={item.name} muscles={item.muscles} callback={(muscle) => fetchWorkout({ muscle })} />
                         </View>
                     )
                 }}
