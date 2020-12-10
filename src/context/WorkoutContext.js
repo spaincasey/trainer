@@ -18,7 +18,6 @@ const fetchCategories = dispatch => async () => {
     try {
         const token = await AsyncStorage.getItem('token');
         const response = await trainerApi.get('/category', { headers: { 'Authorization': `Bearer ${token}` } });
-        // console.log(response.data);
         dispatch({ type: 'FETCH_CATEGORIES', payload: response.data });
     } catch (err) {
         console.log(err);
@@ -26,14 +25,14 @@ const fetchCategories = dispatch => async () => {
 };
 
 const fetchWorkout = dispatch => async ({ muscle }) => {
-    console.log(muscle);
+    const token = await AsyncStorage.getItem('token');
+    const config = { params: { muscle }, headers: { 'Authorization': `Bearer ${token}` } };
     try {
-        const token = await AsyncStorage.getItem('token');
-        const response = await trainerApi.get(`/workout?muscle=${muscle}`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const response = await trainerApi.get(`/workout`, config);
         dispatch({ type: 'FETCH_WORKOUT', payload: response.data });
         navigate('Workout');
     } catch (err) {
-        console.log(err);
+        console.log(err.message);
     }
 };
 
