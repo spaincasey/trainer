@@ -1,23 +1,31 @@
 import React, { useEffect, useContext } from 'react';
 import { View, StyleSheet, Text, Image, FlatList } from 'react-native';
 import { Context as WorkoutContext } from '../context/WorkoutContext';
+import workoutsImageObject from '../resources/workoutsImageObject';
 
+/********************************************************************
+ * NAME: WorkoutScreen
+ * DESCRIPTION: The Workout Screen calls the fetchWorkout action and 
+ * recieves a random workout from the application state and displays
+ * the details of that workout including the name, an image, a discription,
+ * a list of steps and a list of muscles. 
+ *******************************************************************/
 const WorkoutScreen = () => {
     const { state, fetchWorkout } = useContext(WorkoutContext);
-    console.log(state.workout[0].name);
+    workout = state.workout[0];
 
     useEffect(() => {
         fetchWorkout();
     }, []);
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{state.workout[0].name}</Text>
-            <Image style={styles.image} source={require('../../assets/PocketTrainerLogo.png')} />
+            <Text style={styles.title}>{workout.name}</Text>
+            <Image style={styles.image} source={require('../../assets/workoutImages/standingBarbellCurl.jpg')} />
             <Text style={styles.subTitle}>Description: </Text>
-            <Text style={styles.body}>{state.workout[0].description}</Text>
+            <Text style={styles.body}>{workout.description}</Text>
             <Text style={styles.subTitle}>Steps: </Text>
             <FlatList
-                data={state.workout[0].steps}
+                data={workout.steps}
                 keyExtractor={(step) => step._id}
                 renderItem={({ item }) => {
                     return (
@@ -27,7 +35,7 @@ const WorkoutScreen = () => {
             />
             <Text style={styles.subTitle}>Muscles: </Text>
             <FlatList
-                data={state.workout[0].otherMuscles}
+                data={workout.otherMuscles}
                 keyExtractor={(muscle) => muscle._id}
                 renderItem={({ item }) => {
                     return (

@@ -3,6 +3,11 @@ import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Spacer from './Spacer';
 import { withNavigation } from 'react-navigation';
 
+/********************************************************************
+ * NAME: NavLink
+ * DESCRIPTION: A simple component that displays some text to the user 
+ * that navigates the user to another screen when clicked. 
+ *******************************************************************/
 const NavLink = ({ navigation, text, routeName }) => {
     return (
         <TouchableOpacity onPress={() => navigation.navigate(routeName)}>

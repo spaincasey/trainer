@@ -8,7 +8,13 @@ import {
     Image
 } from 'react-native';
 
-
+/********************************************************************
+ * NAME: Category
+ * DESCRIPTION: The Category Component takes in a callback function and 
+ * data from one of the muscle categories and displays it to the user in 
+ * the form of FlatList of buttons. When the user clicks on the button the 
+ * component passes the name of the button clicked back to the callback function. 
+ *******************************************************************/
 const Category = ({ name, muscles, callback }) => {
 
     return (
@@ -16,44 +22,48 @@ const Category = ({ name, muscles, callback }) => {
             <View style={styles.textContainer}>
                 <Text style={styles.text}>{name}</Text>
             </View>
-            <FlatList
-                style={styles.flatList}
-                data={muscles}
-                keyExtractor={(muscles) => muscles.name}
-                renderItem={({ item }) => {
-                    return (
-                        <TouchableOpacity style={styles.touchableOpacity} onPress={() => callback(item.name)}>
-                            <Image style={styles.image} source={require('../../assets/muscleIcons/bicepIcon.png')} />
-                            <Text style={styles.buttonText}>{item.name}</Text>
-                        </TouchableOpacity>
-                    )
-                }}
-            />
+            <View style={styles.container}>
+                <FlatList
+                    style={styles.flatList}
+                    data={muscles}
+                    keyExtractor={(muscles) => muscles.name}
+                    renderItem={({ item }) => {
+                        return (
+                            <TouchableOpacity style={styles.touchableOpacity} onPress={() => callback(item.name)}>
+                                <Image style={styles.image} source={item.icon} />
+                                <Text style={styles.buttonText}>{item.name}</Text>
+                            </TouchableOpacity>
+                        )
+                    }}
+                />
+            </View>
         </View>
     )
 };
 const styles = StyleSheet.create({
     container: {
-        margin: 10,
+        marginLeft: 15,
+        marginRight: 15,
+        marginTop: 5,
         flex: 1,
         alignSelf: 'center'
     },
     text: {
         fontSize: 30,
         fontWeight: 'bold',
-        marginLeft: 5,
+        marginLeft: 15,
         marginBottom: 3
     },
     image: {
-        width: 150,
-        height: 150,
+        width: 125,
+        height: 125,
         alignItems: 'center',
         borderColor: '#172A3A',
         borderWidth: 1,
         borderRadius: 5
     },
     buttonText: {
-        marginVertical: 10,
+        marginTop: 10,
         fontSize: 16,
         fontWeight: 'bold'
     },
@@ -64,7 +74,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     touchableOpacity: {
-        margin: 20,
+        marginLeft: 20,
+        marginTop: 15,
+        marginRight: 20,
         alignItems: 'center'
     },
     textContainer: {

@@ -3,6 +3,11 @@ import createDataContext from './createDataContext';
 import trainerApi from '../api/trainer';
 import { navigate } from '../navigationRef';
 
+/********************************************************************
+ * NAME: authReducer
+ * DESCRIPTION: The authReducer contains actions to be dispatched to
+ * change the auth state.
+ *******************************************************************/
 const authReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_ERROR':
@@ -18,9 +23,13 @@ const authReducer = (state, action) => {
     }
 };
 
+/********************************************************************
+ * NAME: tryLocalSignin
+ * DESCRIPTION: checks for a JWT token on the users device and dispatches
+ * the signin action.
+ *******************************************************************/
 const tryLocalSignin = dispatch => async () => {
     const token = await AsyncStorage.getItem('token');
-    console.log(token);
     if (token) {
         dispatch({ type: 'signin', payload: token });
         navigate('Categories');
@@ -29,10 +38,19 @@ const tryLocalSignin = dispatch => async () => {
     }
 };
 
+/********************************************************************
+ * NAME: removeError
+ * DESCRIPTION: Dispatches an action to remove the error message.
+ *******************************************************************/
 const removeError = dispatch => () => {
     dispatch({ type: 'REMOVE_ERROR' });
 }
 
+/********************************************************************
+ * NAME: signup
+ * DESCRIPTION: Makes a post request to add a new user to the database,
+ * creates a JWT Token and saves it to local storage. 
+ *******************************************************************/
 const signup = dispatch => async ({ email, password }) => {
     try {
         const response = await trainerApi.post('/signup', { email, password });
@@ -46,7 +64,11 @@ const signup = dispatch => async ({ email, password }) => {
     }
 };
 
-
+/********************************************************************
+ * NAME: signin
+ * DESCRIPTION: Dispatches an action to sign the user in and saves a 
+ * JWT Token to local storage. 
+ *******************************************************************/
 const signin = dispatch => async ({ email, password }) => {
     try {
         const response = await trainerApi.post('/signin', { email, password });
@@ -60,6 +82,11 @@ const signin = dispatch => async ({ email, password }) => {
     }
 };
 
+/********************************************************************
+ * NAME: signout
+ * DESCRIPTION: Removes the JWT Token from local storage and navigates
+ * the user back to the login flow.
+ *******************************************************************/
 const signout = dispatch => async () => {
     await AsyncStorage.removeItem('token');
     dispatch({ type: 'SIGNOUT' });

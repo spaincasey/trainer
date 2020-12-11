@@ -5,6 +5,13 @@ import { Context as AuthContext } from '../context/AuthContext';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
 
+/********************************************************************
+ * NAME: SigninScreen
+ * DESCRIPTION: The Signin Screen displays the AuthFrom to the user and
+ * passes it the signin action from our AuthContext as a callback function.
+ * It also displays a link that will navigate the user back to the signup 
+ * screen if they do not have an account. 
+ *******************************************************************/
 const SigninScreen = () => {
     const { state, signin, removeError } = useContext(AuthContext);
 
@@ -37,17 +44,20 @@ SigninScreen.navigationOptions = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingBottom: 125,
+        paddingLeft: 20,
+        paddingRight: 20
     },
     logo: {
         flex: 1,
         resizeMode: 'contain',
-        width: 250,
+        width: 150,
         height: null
     },
     logoContainer: {
         alignItems: 'center',
-        height: 250
+        height: 150
     }
 });
 
