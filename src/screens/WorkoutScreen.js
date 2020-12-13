@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { View, StyleSheet, Text, Image, FlatList } from 'react-native';
+import { Button } from 'react-native-elements';
 import { Context as WorkoutContext } from '../context/WorkoutContext';
 import workoutsImageObject from '../resources/workoutsImageObject';
 
@@ -12,11 +13,9 @@ import workoutsImageObject from '../resources/workoutsImageObject';
  *******************************************************************/
 const WorkoutScreen = () => {
     const { state, fetchWorkout } = useContext(WorkoutContext);
-    workout = state.workout[0];
+    const workout = state.workout[0];
+    const muscle = workout.mainMuscle;
 
-    useEffect(() => {
-        fetchWorkout();
-    }, []);
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{workout.name}</Text>
@@ -43,6 +42,7 @@ const WorkoutScreen = () => {
                     )
                 }}
             />
+            <Button style={styles.button} title="Next" onPress={() => fetchWorkout({ muscle })} />
         </View>
     )
 };
